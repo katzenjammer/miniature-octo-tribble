@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		F7422D61182EC8F40090C69A /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = F7422D60182EC8F40090C69A /* main.c */; };
 		F7422D63182EC8F40090C69A /* curses_rocket.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = F7422D62182EC8F40090C69A /* curses_rocket.1 */; };
+		F7422D6B182F4D030090C69A /* libncurses.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F7422D6A182F4D030090C69A /* libncurses.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -28,6 +29,7 @@
 		F7422D5D182EC8F40090C69A /* curses_rocket */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = curses_rocket; sourceTree = BUILT_PRODUCTS_DIR; };
 		F7422D60182EC8F40090C69A /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		F7422D62182EC8F40090C69A /* curses_rocket.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = curses_rocket.1; sourceTree = "<group>"; };
+		F7422D6A182F4D030090C69A /* libncurses.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libncurses.dylib; path = usr/lib/libncurses.dylib; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -35,6 +37,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F7422D6B182F4D030090C69A /* libncurses.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -44,6 +47,7 @@
 		F7422D54182EC8F30090C69A = {
 			isa = PBXGroup;
 			children = (
+				F7422D6A182F4D030090C69A /* libncurses.dylib */,
 				F7422D5F182EC8F40090C69A /* curses_rocket */,
 				F7422D5E182EC8F40090C69A /* Products */,
 			);
@@ -76,6 +80,7 @@
 				F7422D59182EC8F30090C69A /* Sources */,
 				F7422D5A182EC8F30090C69A /* Frameworks */,
 				F7422D5B182EC8F30090C69A /* CopyFiles */,
+				F7422D69182ECA3C0090C69A /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -111,6 +116,22 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		F7422D69182ECA3C0090C69A /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "open ${TARGET_BUILD_DIR}/${TARGET_NAME}";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		F7422D59182EC8F30090C69A /* Sources */ = {
