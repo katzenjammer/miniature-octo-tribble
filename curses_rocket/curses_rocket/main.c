@@ -10,6 +10,7 @@
 #include <stdlib.h>
 #include <curses.h>
 #include <signal.h>
+#include <time.h>
 
 
 #define MvAddCh (void) mvaddch
@@ -29,7 +30,7 @@
 static void showit(void);
 static void cleanup(void);
 static void draw_rocket(void);
-static short my_bg = COLOR_BLACK;
+static void draw_background(void);
 
 int main(int argc, const char * argv[])
 {
@@ -39,71 +40,151 @@ int main(int argc, const char * argv[])
     keypad(stdscr, TRUE);
     nodelay(stdscr, TRUE);
     curs_set(0);
-    
+   
+    draw_background();
     draw_rocket();
+   
+   for (;;)
+   {
+      MvPrintw((LINES/1.5)-5, (COLS/2)+10, "LIFTOFF!!!");
+      showit();
+   }
+   
     cleanup();
     
     return 0;
 }
 
+static void draw_background(void)
+{
+
+   int horizon = LINES/1.5;
+   int row = 0;
+   int i,j = 0;
+   int density = 2;
+   int feature_length = 8;
+   time_t t;
+
+   srand((unsigned) time(&t));
+
+   const char *hills[10] = {
+      ".  .  ..",
+      "_  _..  ",
+      ". .. . ,",
+      ".~. ~ ._",
+      ".  .,  ,",
+      "__   _._",
+      " ..  ,   ",
+      ",_ . .  ",
+      "   ,  . ",
+      ".  __  _"};
+
+   
+   const char *foreground[10] = {
+      "   !    ",
+      "      . ",
+      "   .    ",
+      "        ",
+      "  ,    .",
+      "     ;  ",
+      "+       ",
+      "    `   ",
+      "       ,",
+      "     ^  "};
+   
+   MvPrintw(3,5, "    _..._    ");
+   MvPrintw(4,5, "  .'  o ::.  ");
+   MvPrintw(5,5, " : O     ::: ");
+   MvPrintw(6,5, " :   .   ::: ");
+   MvPrintw(7,5, " `. .   .::' ");
+   MvPrintw(8,5, "   `-..:''   ");
+
+   for (i=0; i < COLS; i=i+10)
+   {
+      j = rand() % 10;
+      MvPrintw(horizon, i, "%s", hills[j]);
+   }
+   
+   for (row = horizon+1; row < LINES; row++)
+   {
+      for (i = 0; i < density; i++)
+      {
+         j = rand() % COLS-feature_length;
+         MvPrintw(row, j, "%s", foreground[j%10]);
+ 
+      }
+   }
+   
+   return;
+   
+}
+
 static void draw_rocket(void)
 {
-    int row = LINES-1;
-    int top = 1;
-    int left = 1;
-    int right = COLS;
-    int center = (COLS/2)-1;
-    int liftoff = 10;
+   int platform_offset = 3;
+   int platform = LINES - platform_offset;
+   int row = 0;
+   int top = 1;
+   int center = (COLS/2)-1;
+   int liftoff = 0;
     
-    for (row = LINES-1; row > top-2 ; row--)
+    for (row = platform; row > top-2 ; row--)
     {
-       MvPrintw(row-9, (center - 1),  " . ");
-       MvPrintw(row-8, (center - 1),  "/ \\");
-       MvPrintw(row-7, (center - 1),  ";S:");
-       MvPrintw(row-6, (center - 1),  ";P:");
-       MvPrintw(row-5, (center - 1),  ";A:");
-       MvPrintw(row-4, (center - 1),  ";C:");
-       MvPrintw(row-3, (center - 2), " ;E: ");
-       MvPrintw(row-2, (center - 2), "-===-");
-       MvPrintw(row-1, (center - 1),  "^^^");
+       MvPrintw(row-9, (center - 2), "    .    ");
+       MvPrintw(row-8, (center - 2), "   / \\   ");
+       MvPrintw(row-7, (center - 2), "   |||   ");
+       MvPrintw(row-6, (center - 2), "   |o|   ");
+       MvPrintw(row-5, (center - 2), "   |||   ");
+       MvPrintw(row-4, (center - 2), "   |o|   ");
+       MvPrintw(row-3, (center - 2), "  /|||\\  ");
+       MvPrintw(row-2, (center - 2), " --===-- ");
+       MvPrintw(row-1, (center - 2), "   ^^^   ");
        
-       if (LINES-1 == row)
+       if (platform == row)
        {
-          MvPrintw(row,   (center - 2), "|   |");
-          for (liftoff = 8; liftoff > 0; liftoff--)
+          MvPrintw(row,(center - 2), " ||   || ");
+          for (liftoff = 10; liftoff > 0; liftoff--)
           {
              switch(liftoff)
              {
+                case 10 :
+                   MvPrintw(row,   (center - 2),     " || + || ");
+                   showit();
+                   break;
+                case 9 :
+                   MvPrintw(row,   (center - 2),     " ||+*+|| ");
+                   showit();
+                   break;
                 case 8 :
-                   MvPrintw(row,   (center - 2),       "|   |");
+                   MvPrintw(row,   (center - 2),     " ||*#*|| ");
                    showit();
                    break;
                 case 7 :
-                   MvPrintw(row,   (center - 2),       "|&&&|");
+                   MvPrintw(row,   (center - 2),     " ||#*#|| ");
                    showit();
                    break;
                 case 6 :
-                   MvPrintw(row,   (center - 3),      "&|*#*|&");
+                   MvPrintw(row,   (center - 2),     "&||*#*||&");
                    showit();
                    break;
                 case 5 :
-                   MvPrintw(row,   (center - 4),     "&&|#*#|&&");
+                   MvPrintw(row,   (center - 3),    "&&||#*#||&&");
                    showit();
                    break;
                 case 4 :
-                   MvPrintw(row,   (center - 5),    "&&&|*#*|&&&");
+                   MvPrintw(row,   (center - 4),   "&&&||*#*||&&&");
                    showit();
                    break;
                 case 3 :
-                   MvPrintw(row,   (center - 6),   "&&&&|#*#|&&&&");
+                   MvPrintw(row,   (center - 5),  "&&&&||#*#||&&&&");
                    showit();
                    break;
                 case 2 :
-                   MvPrintw(row,   (center - 7),  "&&&&&|*#*|&&&&&");
+                   MvPrintw(row,   (center - 6), "&&&&&||*#*||&&&&&");
                    showit();
                    break;
                 case 1 :
-                   MvPrintw(row,   (center - 8), "&&&&&&|#*#|&&&&&&");
+                   MvPrintw(row,   (center - 7),"&&&&&&||#*#||&&&&&&");
                    showit();
                    break;
                 default :
@@ -115,11 +196,11 @@ static void draw_rocket(void)
        }
        else if (row % 2)
        {
-          MvPrintw(row, (center - 2), " #*# ");
+          MvPrintw(row, (center - 2), "   #*#  ");
        }
        else
        {
-          MvPrintw(row, (center - 2), " *#* ");
+          MvPrintw(row, (center - 2), "   *#*  ");
        }
        showit();
     }
@@ -130,7 +211,7 @@ static void draw_rocket(void)
 static void showit(void)
 {
     int ch;
-    napms(300);
+    napms(200);
     if ((ch = getch()) != ERR)
     {
 #ifdef KEY_RESIZE
