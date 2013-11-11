@@ -178,49 +178,53 @@ static void draw_rocket(void)
        {
           MvPrintw(row,(center - 2), " ||   || ");
           animate_truck();
+          MvPrintw(row-2, (center - 2), " --===-- ");
+          MvPrintw(row-1, (center - 2), "   ^^^   ");
+          showit(10);
+          showit(3000);
           for (liftoff = 10; liftoff > 0; liftoff--)
           {
              switch(liftoff)
              {
                 case 10 :
                    MvPrintw(row,   (center - 2),     " || + || ");
-                   showit(ms);
+                   showit(ms*3);
                    break;
                 case 9 :
                    MvPrintw(row,   (center - 2),     " ||+*+|| ");
-                   showit(ms);
+                   showit(ms*3);
                    break;
                 case 8 :
                    MvPrintw(row,   (center - 2),     " ||*#*|| ");
-                   showit(ms);
+                   showit(ms*3);
                    break;
                 case 7 :
                    MvPrintw(row,   (center - 2),     " ||#*#|| ");
-                   showit(ms);
+                   showit(ms*2);
                    break;
                 case 6 :
                    MvPrintw(row,   (center - 2),     "&||*#*||&");
-                   showit(ms);
+                   showit(ms*2);
                    break;
                 case 5 :
                    MvPrintw(row,   (center - 3),    "&&||#*#||&&");
-                   showit(ms);
+                   showit(ms*2);
                    break;
                 case 4 :
                    MvPrintw(row,   (center - 4),   "&&&||*#*||&&&");
-                   showit(ms);
+                   showit(ms*2);
                    break;
                 case 3 :
                    MvPrintw(row,   (center - 5),  "&&&&||#*#||&&&&");
-                   showit(ms);
+                   showit(ms*2);
                    break;
                 case 2 :
                    MvPrintw(row,   (center - 6), "&&&&&||*#*||&&&&&");
-                   showit(ms);
+                   showit(ms*2);
                    break;
                 case 1 :
                    MvPrintw(row,   (center - 7),"&&&&&&||#*#||&&&&&&");
-                   showit(ms);
+                   showit(ms*2);
                    break;
                 default :
                    showit(ms);
