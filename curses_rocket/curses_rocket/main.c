@@ -27,10 +27,12 @@
 
 #define ExitProgram(code) _nc_free_tinfo(code)
 
-static void showit(void);
+static void showit(int ms);
 static void cleanup(void);
 static void draw_rocket(void);
 static void draw_background(void);
+static void animate_truck(void);
+
 
 int main(int argc, const char * argv[])
 {
@@ -47,12 +49,43 @@ int main(int argc, const char * argv[])
    for (;;)
    {
       MvPrintw((LINES/1.5)-5, (COLS/2)+10, "LIFTOFF!!!");
-      showit();
+      showit(1000);
    }
    
     cleanup();
     
     return 0;
+}
+
+static void animate_truck(void)
+{
+   int i = 0;
+   
+   for (i = -7; i < (COLS/2) - 20; i++)
+   {
+      MvPrintw(LINES-5,i,  " ,_!p\\_");
+      MvPrintw(LINES-4,i,  " ;0---0`");
+      showit(100);
+   }
+
+   showit(1000);
+   
+   for (i = (COLS/2) - 13; i < (COLS/2)+1; i++)
+   {
+      if(i%2)
+      {
+         MvPrintw(LINES-5,i,  " O");
+         MvPrintw(LINES-4,i,  " ^");
+         showit(500);
+      }
+      else
+      {
+         MvPrintw(LINES-5,i,  " O");
+         MvPrintw(LINES-4,i,  " |");
+         showit(500);
+      }
+   }
+   return;
 }
 
 static void draw_background(void)
@@ -61,7 +94,7 @@ static void draw_background(void)
    int horizon = LINES/1.5;
    int row = 0;
    int i,j = 0;
-   int density = 2;
+   int density = 3;
    int feature_length = 8;
    time_t t;
 
@@ -127,6 +160,7 @@ static void draw_rocket(void)
    int top = 1;
    int center = (COLS/2)-1;
    int liftoff = 0;
+   int ms = 200;
     
     for (row = platform; row > top-2 ; row--)
     {
@@ -143,52 +177,53 @@ static void draw_rocket(void)
        if (platform == row)
        {
           MvPrintw(row,(center - 2), " ||   || ");
+          animate_truck();
           for (liftoff = 10; liftoff > 0; liftoff--)
           {
              switch(liftoff)
              {
                 case 10 :
                    MvPrintw(row,   (center - 2),     " || + || ");
-                   showit();
+                   showit(ms);
                    break;
                 case 9 :
                    MvPrintw(row,   (center - 2),     " ||+*+|| ");
-                   showit();
+                   showit(ms);
                    break;
                 case 8 :
                    MvPrintw(row,   (center - 2),     " ||*#*|| ");
-                   showit();
+                   showit(ms);
                    break;
                 case 7 :
                    MvPrintw(row,   (center - 2),     " ||#*#|| ");
-                   showit();
+                   showit(ms);
                    break;
                 case 6 :
                    MvPrintw(row,   (center - 2),     "&||*#*||&");
-                   showit();
+                   showit(ms);
                    break;
                 case 5 :
                    MvPrintw(row,   (center - 3),    "&&||#*#||&&");
-                   showit();
+                   showit(ms);
                    break;
                 case 4 :
                    MvPrintw(row,   (center - 4),   "&&&||*#*||&&&");
-                   showit();
+                   showit(ms);
                    break;
                 case 3 :
                    MvPrintw(row,   (center - 5),  "&&&&||#*#||&&&&");
-                   showit();
+                   showit(ms);
                    break;
                 case 2 :
                    MvPrintw(row,   (center - 6), "&&&&&||*#*||&&&&&");
-                   showit();
+                   showit(ms);
                    break;
                 case 1 :
                    MvPrintw(row,   (center - 7),"&&&&&&||#*#||&&&&&&");
-                   showit();
+                   showit(ms);
                    break;
                 default :
-                   showit();
+                   showit(ms);
                    break;
              }
           }
@@ -202,16 +237,16 @@ static void draw_rocket(void)
        {
           MvPrintw(row, (center - 2), "   *#*  ");
        }
-       showit();
+       showit(ms);
     }
     
     return;
 }
 
-static void showit(void)
+static void showit(int ms)
 {
     int ch;
-    napms(200);
+    napms(ms);
     if ((ch = getch()) != ERR)
     {
 #ifdef KEY_RESIZE
